@@ -1,0 +1,351 @@
+/*
+ * JavaScript Load Image Demo CSS
+ * https://github.com/blueimp/JavaScript-Load-Image
+ *
+ * Copyright 2013, Sebastian Tschan
+ * https://blueimp.net
+ *
+ * Licensed under the MIT license:
+ * https://opensource.org/licenses/MIT
+ */
+@import url(http://fonts.googleapis.com/css?family=Lato:300,400,700|Ruthie);
+@font-face {
+  font-weight: normal;
+  font-style: normal;
+  font-family: 'codropsicons';
+  src:url('../fonts/codropsicons/codropsicons.eot');
+  src:url('../fonts/codropsicons/codropsicons.eot?#iefix') format('embedded-opentype'),
+  url('../fonts/codropsicons/codropsicons.woff') format('woff'),
+  url('../fonts/codropsicons/codropsicons.ttf') format('truetype'),
+  url('../fonts/codropsicons/codropsicons.svg#codropsicons') format('svg');
+}
+body {
+  /*margin: 0 auto;*/
+  padding: 1em;
+  font-family: 'Lucida Grande', 'Lucida Sans Unicode', Arial, sans-serif;
+  font-size: 1em;
+  line-height: 1.4em;
+  background: #222;
+  color: #fff;
+  -webkit-text-size-adjust: 100%;
+      -ms-text-size-adjust: 100%;
+}
+a {
+  color: white;
+  text-decoration: none;
+}
+img {
+  border: 0;
+  vertical-align: middle;
+}
+h1 {
+  line-height: 1em;
+}
+table {
+  width: 100%;
+  word-wrap: break-word;
+  table-layout: fixed;
+  border-collapse: collapse;
+}
+tr {
+  background: #fff;
+  color: #222;
+}
+tr:nth-child(odd) {
+  background: #eee;
+  color: #222;
+}
+td {
+  padding: 10px;
+}
+.result,
+.thumbnail {
+  padding: 20px;
+  background: #fff;
+  color: #222;
+  text-align: center;
+}
+.jcrop-holder {
+  margin: 0 auto;
+}
+
+@media (min-width: 481px) {
+  .navigation {
+    list-style: none;
+    padding: 0;
+  }
+  .navigation li {
+    display: inline-block;
+  }
+  .navigation li:not(:first-child):before {
+    content: '| ';
+  }
+}
+small{
+  color : red;
+}
+
+.frameitem{
+  width : 752px;
+  height : 567px;
+  background-size : cover;
+  background-repeat: no-repeat;
+}
+.vertical-center {
+  min-height: 100%;  /* Fallback for browsers do NOT support vh unit */
+  min-height: 100vh; /* These two lines are counted as one :-)       */
+
+  display: flex;
+  align-items: center;
+}
+
+.svg-border {
+  width: 200px;
+  height: 200px;
+  position: relative;
+  overflow: hidden;
+  background: #222;
+}
+
+svg {
+  position: absolute;
+  top: 0;
+  left: 0;
+}
+
+svg line {
+  stroke-width: 10;
+  stroke: #000;
+  fill: none;
+  stroke-dasharray: 200;
+  -webkit-transition: -webkit-transform .6s ease-out;
+  transition: transform .6s ease-out;
+}
+
+.svg-border:hover svg line {
+  -webkit-transform: translateX(-400px);
+  transform: translateX(-400px);
+}
+svg-border:hover svg line.top {
+  -webkit-transform: translateX(-400px);
+  transform: translateX(-400px);
+}
+
+svg-border:hover svg line.bottom {
+  -webkit-transform: translateX(400px);
+  transform: translateX(400px);
+}
+
+svg-border:hover svg line.left {
+  -webkit-transform: translateY(400px);
+  transform: translateY(400px);
+}
+
+svg-border:hover svg line.right {
+  -webkit-transform: translateY(-400px);
+  transform: translateY(-400px);
+}
+
+.box {
+  width: 300px;
+  height: 460px;
+  position: relative;
+  background: #222;
+  display: inline-block;
+  cursor: pointer;
+  color: #2c3e50;
+  box-shadow: inset 0 0 0 3px #2c3e50;
+  -webkit-transition: background 0.4s 0.5s;
+  transition: background 0.4s 0.5s;
+}
+
+.box:hover {
+  background: rgba(255,255,255,0);
+  -webkit-transition-delay: 0s;
+  transition-delay: 0s;
+}
+
+.box h3 {
+  font-family: "Ruthie", cursive;
+  font-size: 7em;
+  line-height: 370px;
+  margin: 0;
+  font-weight: 400;
+  width: 100%;
+}
+
+.box span {
+  display: block;
+  font-weight: 400;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  font-size: 1em;
+  padding: 5px;
+}
+
+.box h3,
+.box span {
+  -webkit-transition: color 0.4s 0.5s;
+  transition: color 0.4s 0.5s;
+}
+
+.box:hover h3,
+.box:hover span {
+  color: #fff;
+  -webkit-transition-delay: 0s;
+  transition-delay: 0s;
+}
+
+.box svg {
+  position: absolute;
+  top: 0;
+  left: 0;
+}
+
+.box svg line {
+  stroke-width: 3;
+  stroke: #ecf0f1;
+  fill: none;
+  -webkit-transition: all .8s ease-in-out;
+  transition: all .8s ease-in-out;
+}
+
+.box:hover svg line {
+  -webkit-transition-delay: 0.1s;
+  transition-delay: 0.1s;
+}
+
+.box svg line.top,
+.box svg line.bottom {
+  stroke-dasharray: 330 240;
+}
+
+.box svg line.left,
+.box svg line.right {
+  stroke-dasharray: 490 400;
+}
+
+.box:hover svg line.top {
+  -webkit-transform: translateX(-600px);
+  transform: translateX(-600px);
+}
+
+.box:hover svg line.bottom {
+  -webkit-transform: translateX(600px);
+  transform: translateX(600px);
+}
+
+.box:hover svg line.left {
+  -webkit-transform: translateY(920px);
+  transform: translateY(920px);
+}
+
+.box:hover svg line.right {
+  -webkit-transform: translateY(-920px);
+  transform: translateY(-920px);
+}
+
+.box-file {
+  padding: 6.25rem 1.25rem;
+}
+
+.box-file + .box-file {
+  margin-top: 2.5rem;
+}
+
+.content {
+  width: 100%;
+  max-width: 800px;
+  text-align: center;
+  margin: 0 auto;
+  padding: 0 0 3em 0;
+}
+
+
+.js .inputfile {
+  width: 0.1px;
+  height: 0.1px;
+  opacity: 0;
+  overflow: hidden;
+  position: absolute;
+  z-index: -1;
+}
+
+.inputfile + label {
+  max-width: 80%;
+  font-size: 1.25rem;
+  /* 20px */
+  font-weight: 700;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  cursor: pointer;
+  display: inline-block;
+  overflow: hidden;
+  padding: 0.625rem 1.25rem;
+  /* 10px 20px */
+}
+
+.no-js .inputfile + label {
+  display: none;
+}
+
+.inputfile:focus + label,
+.inputfile.has-focus + label {
+  outline: 1px dotted #000;
+  outline: -webkit-focus-ring-color auto 5px;
+}
+
+.inputfile + label * {
+  /* pointer-events: none; */
+  /* in case of FastClick lib use */
+}
+
+.inputfile + label svg {
+  width: 1em;
+  height: 1em;
+  vertical-align: middle;
+  fill: currentColor;
+  margin-top: -0.25em;
+  /* 4px */
+  margin-right: 0.25em;
+  /* 4px */
+}
+
+
+
+.inputfile-4 + label {
+  color: #d3394c;
+}
+
+.inputfile-4:focus + label,
+.inputfile-4.has-focus + label,
+.inputfile-4 + label:hover {
+  color: #722040;
+}
+
+.inputfile-4 + label figure {
+  width: 100px;
+  height: 100px;
+  border-radius: 50%;
+  background-color: #d3394c;
+  display: block;
+  padding: 20px;
+  margin: 0 auto 10px;
+}
+
+.inputfile-4:focus + label figure,
+.inputfile-4.has-focus + label figure,
+.inputfile-4 + label:hover figure {
+  background-color: #722040;
+}
+
+.inputfile-4 + label svg {
+  position : relative;
+  width: 100%;
+  height: 100%;
+  fill: #f1e5e6;
+}
+
+p .btn-secondary{
+  cursor : hand;
+}
