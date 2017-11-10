@@ -6,11 +6,27 @@ document.getElementById('file-5').onchange = function (e) {
         e.target.files[0],
         function (img) {
             $('#zone').append(img);
+
             $('#upload_img').hide();
             $('#workshop').show();
+
             $('#zone').width(img.width);
             $('#zone').height(img.height);
+
             $('#form').show();
+            $('#cp1').val("#FF3429");
+            $('#cp1').ColorPicker({
+                onSubmit: function(hsb, hex, rgb, el) {
+                    $(el).val("#" + hex);
+                    $(el).ColorPickerHide();
+                },
+                onBeforeShow: function () {
+                    $(this).ColorPickerSetColor(this.value);
+                }
+            })
+                .bind('keyup', function(){
+                    $(this).ColorPickerSetColor("#" + this.value);
+                });
 
         },
         {maxWidth: 600} // Options

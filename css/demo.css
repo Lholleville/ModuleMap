@@ -88,8 +88,6 @@ small{
 .frameitem{
   width : 752px;
   height : 567px;
-  background-size : cover;
-  background-repeat: no-repeat;
 }
 .vertical-center {
   min-height: 100%;  /* Fallback for browsers do NOT support vh unit */
@@ -126,22 +124,22 @@ svg line {
   -webkit-transform: translateX(-400px);
   transform: translateX(-400px);
 }
-svg-border:hover svg line.top {
+.svg-border:hover svg line.top {
   -webkit-transform: translateX(-400px);
   transform: translateX(-400px);
 }
 
-svg-border:hover svg line.bottom {
+.svg-border:hover svg line.bottom {
   -webkit-transform: translateX(400px);
   transform: translateX(400px);
 }
 
-svg-border:hover svg line.left {
+.svg-border:hover svg line.left {
   -webkit-transform: translateY(400px);
   transform: translateY(400px);
 }
 
-svg-border:hover svg line.right {
+.svg-border:hover svg line.right {
   -webkit-transform: translateY(-400px);
   transform: translateY(-400px);
 }
@@ -349,3 +347,15 @@ svg-border:hover svg line.right {
 p .btn-secondary{
   cursor : hand;
 }
+
+#zone img{
+  z-index: 0;
+}
+#zone svg{
+  z-index: 1;
+  height: inherit;
+  width : inherit;
+  left : 15px;
+  top : 70px;
+}
+

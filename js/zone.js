@@ -3,7 +3,8 @@
  * TODO :
  */
 
-var i = 0;
+var i_global = 0;
+var area_count = 0;
 
 var App = {
     resetForm : function(){
@@ -29,42 +30,72 @@ var Point = {
     height : $('#zone').height(),
     width : $('#zone').width(),
     pointArray : [],
+    pointDrawArray : [],
 
     addPoint : function(x, y) {
-        this.pointArray.push([x, y]);
+        this.pointArray.push([x, y, i_global]);
     },
-    clear : function(nb) {
-        this.pointArray = [];
-        for(var nbPoint = 0; nbPoint < nb; nbPoint++){
-            console.log("#" + nbPoint);
-            $("#" + nbPoint).hide();
+    clear : function() {
 
-        }
+        this.pointArray.forEach(function(elem){
+            $("#" + elem[2]).remove();
+        });
+
+        // for(var nbPoint = 0; nbPoint < nb; nbPoint++){
+        //     $("#" + i_global).hide();
+        // }
+        this.pointArray = [];
+        this.pointDrawArray = [];
     },
     drawPoint : function(x, y) {
 
         var p = {
-            id : i,
-            img : 'img/point.jpg',
+            id : i_global,
+            img : 'images/point.jpg',
             html : null,
             PosX : null,
             PosY : null,
             style : null,
             setHtml : function (){
-               this.html =  '<img src="'+ this.img + '" alt="point" id="'+ this.id +'" style = " '+this.style+'">';
+               //this.html =  '<img src="'+ this.img + '" alt="point" id="'+ this.id +'" style = " '+this.style+'">';
+                this.html = ' <svg xmlns="http://www.w3.org/2000/svg" width="" height=""> <rect x="' + this.PosX + '" y="' + this.PosY + '" width="4" height="4" style=" fill:'+ $('#cp1').val() +'; "  id="'+ this.id +'"/></svg>';
             },
             setPos : function(){
-                this.PosX = Math.round(Point.width - (Point.width - x));
-                this.PosY = Math.round(Point.height - (Point.height - y));
+                this.PosX = Math.round(Point.width - (Point.width - x) - 15 );
+                this.PosY = Math.round(Point.height - (Point.height - y) - 70);
                 this.setStyle();
             },
             setStyle : function (){
                 this.style =  'position : absolute; top : ' + this.PosY + 'px; left : ' + this.PosX + 'px; display : inline;';
             }
         };
+        this.pointDrawArray.push(p);
         p.setPos();
         p.setHtml();
         $('#zone').append(p.html);
+        this.drawLine();
+
+    },
+    drawLine : function() {
+        console.log($('#zone .polygon').attr('class'));
+        var str = "";
+
+        this.pointDrawArray.forEach(function(elem){
+            str += elem.PosX + ', ' + elem.PosY + ' ';
+        });
+
+        var html = '<svg xmlns="http://www.w3.org/2000/svg" width="" height="" id="'+area_count+'" class="polygon"><polygon points = "'+ str +'" style=" fill:'+ $('#cp1').val() +'; stroke:'+ $('#cp1').val() +'; opacity:0.3; stroke-opacity: 1; stroke-width: 3px; "></svg>';
+
+        $('#zone .polygon').remove();
+
+        $('#zone').append(html);
+    },
+    savePolygone : function(){
+        $('#zone #' + area_count).attr('class','save');
+    },
+    changeColor : function(){
+        console.log('change');
+        $('rect').attr('style', 'fill:'+$('#cp1').val());
     }
 };
 
@@ -86,7 +117,6 @@ var Map = {
 
     addArea : function(area){
         this.areaArray.push(area.html);
-        console.log("area added");
     },
 
     printArea : function() {
@@ -98,7 +128,7 @@ var Map = {
     },
 
     renderObject : function(area) {
-        var balise = "<p>zone : " + area.html + "</p>";
+        var balise = "<p>zone : " + area.html + " | color : " +area.color + " </p>";
         $('#data').append(balise);
     },
 
@@ -113,9 +143,11 @@ var Area = {
     href : null,
     alt : null,
     html : null,
+    color : null,
 
     create : function() {
         this.html = 'area shape="'+this.shape+'" coords="'+this.coords+'" alt="'+this.alt+'" href="'+ this.href +'"';
+        this.color = $('#cp1').val();
     },
 
     setCoord : function(points) {
@@ -172,11 +204,10 @@ var Area = {
 Point.target.click(function (event){
     Point.addPoint(event.pageX - this.offsetLeft, event.pageY - 16);
     Point.drawPoint(event.pageX - this.offsetLeft, event.pageY - 16);
-    i++;
+    i_global++;
 });
 
 $('#zone_create').click(function(event) {
-    console.log('click');
     PolygoneArray.stockPoly(Point.pointArray);
     if(Area.check(Point.pointArray, false)){
         Area.setUp(Point.pointArray);
@@ -188,8 +219,11 @@ $('#zone_create').click(function(event) {
         App.resetForm();
         App.resetMessage();
         Map.printAera();
+        Point.savePolygone();
+        area_count++;
     }
 });
+
 
 document.onkeydown = function (e){
     e = e || window.event;
@@ -210,6 +244,5 @@ document.onkeydown = function (e){
    }
 
 };
-$('#cp1').colorpicker();
 
 

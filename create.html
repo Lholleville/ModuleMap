@@ -1,3 +1,4 @@
+<?xml version="1.0" standalone="no"?>
 <!DOCTYPE HTML>
 <!--
 /*
@@ -25,6 +26,7 @@
         <link rel="stylesheet" href="css/bootstrap.css">
         <link rel="stylesheet" href="css/jquery.Jcrop.css">
         <link rel="stylesheet" href="css/demo.css">
+        <link rel="stylesheet" href="css/colorpicker.css">
     </head>
 
     <body>
@@ -33,23 +35,11 @@
                 <div class="col-lg-8">
                     <h1 class="text-center">Créer une carte</h1>
                     <a href="index.html">Retour</a>
-                    <!-- <br>
-                    <h2>Selectionnez une image</h2>
-                    <p><input type="file" id="file-input"></p>
-                    <p>Ou <strong>glissez et déposez</strong> une image dans la page web.</p>
-                    <br>
-                    <h2>Result</h2>
-                    <p id="actions" style="display:none;">
-                        <button type="button" id="edit">Editer</button>
-                        <button type="button" id="crop">Rogner</button>
-                    </p>
-                    <div id="result" class="result">
-                        <p></p>
-                    </div> -->
+
                     <div class="content" id="upload_img">
                         <div class="box-file">
                             <input type="file" name="file-5[]" id="file-5" class="inputfile inputfile-4" />
-                            <label for="file-5"><figure><svg xmlns="http://www.w3.org/2000/svg" width="20" height="17" viewBox="0 0 20 17"><path d="M10 0l-5.2 4.9h3.3v5.1h3.8v-5.1h3.3l-5.2-4.9zm9.3 11.5l-3.2-2.1h-2l3.4 2.6h-3.5c-.1 0-.2.1-.2.1l-.8 2.3h-6l-.8-2.2c-.1-.1-.1-.2-.2-.2h-3.6l3.4-2.6h-2l-3.2 2.1c-.4.3-.7 1-.6 1.5l.6 3.1c.1.5.7.9 1.2.9h16.3c.6 0 1.1-.4 1.3-.9l.6-3.1c.1-.5-.2-1.2-.7-1.5z"/></svg></figure> <span>Choose a file&hellip;</span></label>
+                            <label for="file-5"><figure><svg xmlns="http://www.w3.org/2000/svg" width="20" height="17" viewBox="0 0 20 17"><path d="M10 0l-5.2 4.9h3.3v5.1h3.8v-5.1h3.3l-5.2-4.9zm9.3 11.5l-3.2-2.1h-2l3.4 2.6h-3.5c-.1 0-.2.1-.2.1l-.8 2.3h-6l-.8-2.2c-.1-.1-.1-.2-.2-.2h-3.6l3.4-2.6h-2l-3.2 2.1c-.4.3-.7 1-.6 1.5l.6 3.1c.1.5.7.9 1.2.9h16.3c.6 0 1.1-.4 1.3-.9l.6-3.1c.1-.5-.2-1.2-.7-1.5z"/></svg></figure> <span>Choisissez un fichier&hellip;</span></label>
                         </div>
                     </div>
                     <div id="workshop">
@@ -61,26 +51,18 @@
                         </div>
                         <div>
                             <map name="carte" id="carte">
-                                <area shape="poly" coords="" href="" alt="">
+
                             </map>
                         </div>
                     </div>
 
-                    <div class="col-sm-12">
-                        <p id="array">Array</p>
-                    </div>
+
                 </div>
                 <div class="col-lg-4">
                     <form id="form">
                         <div class="form-group">
                             <label for="shape">Type de zone</label>
                             <input type="text" id="shape" class="form-control" value="poly" readonly/>
-
-                            <!--<select id="shape" class="form-control">
-                                <option value="poly">Poly</option>
-                                <option value="rect">Rectangle</option>
-                                <option value="circle">Circle</option>
-                            </select>-->
                             <small id="shapeHelp" class="form-text text-muted"></small>
                         </div>
                         <div class="form-group">
@@ -95,18 +77,23 @@
                             <small id="hrefHelp" class="form-text text-muted"></small>
                             <small id="nbPointHelp" class="form-text text-muted"></small>
                         </div>
-                        <input id="cp1" type="text" class="form-control" value="#5367ce"/>
-                        <script>
-                            $(function () {
-                                $('#cp1').colorpicker();
-                            });
-                        </script>
+                        <div class="form-group">
+                            <label for="cp1">Couleur</label>
+                            <input id="cp1" type="text" class="form-control" value=""/>
+                            <small class="form-text text-muted">Validez avec le &#9989</small>
+                        </div>
                         <div class="form-group">
                             <p class="btn btn-secondary" id="zone_create">Créer zone</p>
                         </div>
                     </form>
-                        <p id="info">
-                        </p>
+                    <p id="info">
+                        <ol>
+                            <li>Uploadez une image</li>
+                            <li>Définissez des points</li>
+                            <li>Choisissez une légende et associez un lien</li>
+                            <li>Définissez la couleur</li>
+                        </ol>
+                    </p>
                 </div>
             </div>
         </div>
@@ -119,16 +106,13 @@
         </div>
         <br>-->
         <script src="js/load-image.all.min.js"></script>
-        <script src="js/colorpicker-color.js"></script>
-
         <script src="https://d3js.org/d3.v4.min.js"></script>
         <!-- jQuery and Jcrop are not required by JavaScript Load Image, but included for the demo -->
         <script src="js/JQuery.min.js"></script>
         <script src="js/jquery.Jcrop.js"></script>
+        <script src="js/colorpicker.js"></script>
         <script src="js/loadImage.js"></script>
         <script src="js/demo.js"></script>
         <script src="js/zone.js"></script>
-
-
     </body>
 </html>
