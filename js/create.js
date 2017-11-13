@@ -5,6 +5,7 @@
 
 var i_global = 0;
 var area_count = 0;
+var editMode = false;
 
 var App = {
     resetForm : function(){
@@ -77,7 +78,6 @@ var Point = {
 
     },
     drawLine : function() {
-        console.log($('#zone .polygon').attr('class'));
         var str = "";
 
         this.pointDrawArray.forEach(function(elem){
@@ -94,8 +94,9 @@ var Point = {
         $('#zone #' + area_count).attr('class','save');
     },
     changeColor : function(){
-        console.log('change');
-        $('rect').attr('style', 'fill:'+$('#cp1').val());
+        var color = $('#cp1').val();
+        //console.log('color : ' + color);
+        $('rect').attr('style', 'fill:'+color);
     }
 };
 
@@ -116,10 +117,10 @@ var Map = {
     areaArray : [],
 
     addArea : function(area){
-        this.areaArray.push(area.html);
+        this.areaArray.push(area);
     },
 
-    printArea : function() {
+    lol : function() {
         var stringArea = "";
         this.areaArray.forEach(function(area){
             stringArea += area;
@@ -127,13 +128,16 @@ var Map = {
         $('#info').html(stringArea);
     },
 
-    renderObject : function(area) {
-        var balise = "<p>zone : " + area.html + " | color : " +area.color + " </p>";
-        $('#data').append(balise);
-    },
+    // renderObject : function(area) {
+    //     var balise = "<p>zone : " + area.html + " | color : " +area.color + " </p>";
+    //     $('#data').append(balise);
+    // },
 
-    printAera : function(){
-        //console.log(this.areaArray);
+    createButtonEdit : function(){
+        var area = this.areaArray[this.areaArray.length - 1];
+        //console.log(area);
+        var html = '<p class="btn btn-secondary" id="areabutton'+ area.id +'" style="background-color: '+ area.color +'">Zone : '+ area.id +'</p>';
+        $('#data').append(html);
     }
 };
 
@@ -144,9 +148,10 @@ var Area = {
     alt : null,
     html : null,
     color : null,
+    id : null,
 
     create : function() {
-        this.html = 'area shape="'+this.shape+'" coords="'+this.coords+'" alt="'+this.alt+'" href="'+ this.href +'"';
+        this.html = '<area shape="'+this.shape+'" coords="'+this.coords+'" alt="'+this.alt+'" href="'+ this.href +'">';
         this.color = $('#cp1').val();
     },
 
@@ -168,6 +173,7 @@ var Area = {
         this.href = $('#href').val();
         this.alt = $('#alt').val();
         this.setCoord(points);
+        this.id = area_count;
     },
 
     reset : function(){
@@ -213,16 +219,22 @@ $('#zone_create').click(function(event) {
         Area.setUp(Point.pointArray);
         Area.create();
         Map.addArea(Area);
-        Map.renderObject(Area);
+        //Map.renderObject(Area);
         Point.clear(Point.pointArray.length);
         Area.reset();
         App.resetForm();
         App.resetMessage();
-        Map.printAera();
         Point.savePolygone();
+        Map.createButtonEdit();
         area_count++;
+
     }
 });
+
+$('#cp1').onchange = function(e){
+   console.log(e);
+    Point.changeColor();
+};
 
 
 document.onkeydown = function (e){
@@ -231,7 +243,7 @@ document.onkeydown = function (e){
     switch(e.keyCode){
         //key enter pressed, create a new polygone into the PolyArray and clear the Zonearray
         case 13 :
-
+            console.log($("p[id~='areabutton']"));
         break;
 
         case 75 : //key k pressed
@@ -246,3 +258,10 @@ document.onkeydown = function (e){
 };
 
 
+//EDIT
+
+ $('#areabutton0').click(function(){
+     editMode = !editMode;
+     console.log('editMode : ' + editMode);
+     console.log('click button : ' + $(this).attr('id'));
+ });
