@@ -2,12 +2,17 @@
  * Created by Loic on 13/11/2017.
  */
 
+var j = 0;
 
+$('#click').click(function(){
 
-$('#click').on('click',function(){
-    $('#add').append('<p id="click2">Click me 2</p>');
+    $('.edit').append('<p id="area'+ j + '" class="btn btn-secondary">ISSOU '+ j +'</p>');
+
+    $("p[id*='area']").click(function(){
+        console.log($(this).attr('id'));
+    });
+    j++;
+
 });
 
-$('#click2').on('click',function(){
-   console.log('ok');
-});
+

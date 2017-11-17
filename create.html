@@ -1,17 +1,5 @@
 <?xml version="1.0" standalone="no"?>
 <!DOCTYPE HTML>
-<!--
-/*
- * JavaScript Load Image Demo
- * https://github.com/blueimp/JavaScript-Load-Image
- *
- * Copyright 2011, Sebastian Tschan
- * https://blueimp.net
- *
- * Licensed under the MIT license:
- * https://opensource.org/licenses/MIT
- */
--->
 <html lang="en" class="js">
     <head>
         <!--[if IE]>
@@ -23,10 +11,16 @@
         <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 
         <!-- Jcrop is not required by JavaScript Load Image, but included for the demo -->
+        <link href = "https://code.jquery.com/ui/1.10.4/themes/ui-lightness/jquery-ui.css"
+              rel = "stylesheet">
+        <script src = "https://code.jquery.com/jquery-1.10.2.js"></script>
+        <script src = "https://code.jquery.com/ui/1.10.4/jquery-ui.js"></script>
         <link rel="stylesheet" href="css/bootstrap.css">
         <link rel="stylesheet" href="css/jquery.Jcrop.css">
         <link rel="stylesheet" href="css/demo.css">
         <link rel="stylesheet" href="css/colorpicker.css">
+
+
     </head>
 
     <body>
@@ -57,6 +51,7 @@
                     </div>
                 </div>
                 <div class="col-lg-4">
+
                     <form id="form">
                         <div class="form-group">
                             <label for="shape">Type de zone</label>
@@ -83,8 +78,11 @@
 
                         <div class="form-group">
                             <p class="btn btn-secondary" id="zone_create">Créer zone</p>
+                            <p class="btn btn-danger" id="edition_mode">Mode édition</p>
+                            <p class="btn btn-secondary" id="polygon_show">Cacher polygones</p>
                         </div>
                     </form>
+
                     <p id="info">
                         <ol>
                             <li>Uploadez une image</li>
@@ -97,23 +95,14 @@
             </div>
         </div>
 
-        <!--<br>
-        <div id="exif" class="exif" style="display:none;">
-            <h2>Exif meta data</h2>
-            <p id="thumbnail" class="thumbnail" style="display:none;"></p>
-            <table></table>
-        </div>
-        <br>-->
+
         <script src="js/load-image.all.min.js"></script>
         <script src="https://d3js.org/d3.v4.min.js"></script>
-        <!-- jQuery and Jcrop are not required by JavaScript Load Image, but included for the demo -->
-        <script src="js/JQuery.min.js"></script>
         <script src="js/jquery.Jcrop.js"></script>
         <script src="js/colorpicker.js"></script>
         <script src="js/loadImage.js"></script>
         <script src="js/demo.js"></script>
         <script src="js/edit.js"></script>
-
         <script src="js/create.js"></script>
     </body>
 </html>

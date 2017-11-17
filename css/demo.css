@@ -351,11 +351,24 @@ p .btn-secondary{
 #zone img{
   z-index: 0;
 }
+
+
 #zone svg{
   z-index: 1;
+  /*height: inherit;
+  width : inherit;*/
+
+}
+
+.save, .polygon{
   height: inherit;
   width : inherit;
-  left : 15px;
   top : 70px;
+  left : 15px;
 }
+
+
+
+
+
 

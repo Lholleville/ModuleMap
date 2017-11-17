@@ -4,8 +4,13 @@
  */
 
 var i_global = 0;
+//number of area
 var area_count = 0;
 var editMode = false;
+var polyMode = false;
+
+
+
 
 var App = {
     resetForm : function(){
@@ -42,14 +47,10 @@ var Point = {
             $("#" + elem[2]).remove();
         });
 
-        // for(var nbPoint = 0; nbPoint < nb; nbPoint++){
-        //     $("#" + i_global).hide();
-        // }
         this.pointArray = [];
         this.pointDrawArray = [];
     },
-    drawPoint : function(x, y) {
-
+    drawPoint : function(x, y, color, bool, redraw, boolClass) {
         var p = {
             id : i_global,
             img : 'images/point.jpg',
@@ -59,29 +60,40 @@ var Point = {
             style : null,
             setHtml : function (){
                //this.html =  '<img src="'+ this.img + '" alt="point" id="'+ this.id +'" style = " '+this.style+'">';
-                this.html = ' <svg xmlns="http://www.w3.org/2000/svg" width="" height=""> <rect x="' + this.PosX + '" y="' + this.PosY + '" width="4" height="4" style=" fill:'+ $('#cp1').val() +'; "  id="'+ this.id +'"/></svg>';
+                this.html = '<svg xmlns="http://www.w3.org/2000/svg" width="4" height="4" class="modificable" style="position :absolute; left : '+ this.PosX +'px; top : ' + this.PosY + 'px;"> <rect class="'+boolClass+'" x="0" y="0" width="4" height="4" style=" fill:'+ color +'; "  id="'+ this.id +'"/></svg>';
             },
-            setPos : function(){
-                this.PosX = Math.round(Point.width - (Point.width - x) - 15 );
-                this.PosY = Math.round(Point.height - (Point.height - y) - 70);
+            setPos : function(redraw){
+                if(redraw){
+                    this.PosX = Math.round(Point.width - (Point.width - x));
+                    this.PosY = Math.round(Point.height - (Point.height - y));
+                }
+                this.PosX = Math.round(Point.width - (Point.width - x) -  15 );
+                this.PosY = Math.round(Point.height - (Point.height - y) - 16);
                 this.setStyle();
             },
             setStyle : function (){
                 this.style =  'position : absolute; top : ' + this.PosY + 'px; left : ' + this.PosX + 'px; display : inline;';
             }
         };
+
         this.pointDrawArray.push(p);
+
         p.setPos();
         p.setHtml();
         $('#zone').append(p.html);
-        this.drawLine();
+        if(bool){
+            this.drawLine();
+        }
+
 
     },
     drawLine : function() {
         var str = "";
 
         this.pointDrawArray.forEach(function(elem){
-            str += elem.PosX + ', ' + elem.PosY + ' ';
+            var x = elem.PosX - 15;
+            var y = elem.PosY - 70;
+            str += x + ',' + y + ' ';
         });
 
         var html = '<svg xmlns="http://www.w3.org/2000/svg" width="" height="" id="'+area_count+'" class="polygon"><polygon points = "'+ str +'" style=" fill:'+ $('#cp1').val() +'; stroke:'+ $('#cp1').val() +'; opacity:0.3; stroke-opacity: 1; stroke-width: 3px; "></svg>';
@@ -117,7 +129,18 @@ var Map = {
     areaArray : [],
 
     addArea : function(area){
-        this.areaArray.push(area);
+        console.log(area);
+        var toPush = {
+            color : area.color,
+            alt : area.alt,
+            href : area.href,
+            coords : area.coords,
+            html : area.html,
+            shape : area.shape,
+            id : area.id
+        };
+
+        this.areaArray.push(toPush);
     },
 
     lol : function() {
@@ -136,7 +159,7 @@ var Map = {
     createButtonEdit : function(){
         var area = this.areaArray[this.areaArray.length - 1];
         //console.log(area);
-        var html = '<p class="btn btn-secondary" id="areabutton'+ area.id +'" style="background-color: '+ area.color +'">Zone : '+ area.id +'</p>';
+        var html = '<div><p class="btn btn-secondary edit" id="areabuttonw'+ area.id +'" style="background-color: '+ area.color +'">Zone : '+ area.id +'</p></div>';
         $('#data').append(html);
     }
 };
@@ -169,7 +192,7 @@ var Area = {
     },
 
     setUp : function(points) {
-        this.shape = $('#shape option:checked').val();
+        this.shape = $('#shape').val();
         this.href = $('#href').val();
         this.alt = $('#alt').val();
         this.setCoord(points);
@@ -200,36 +223,108 @@ var Area = {
         }else{
             return true;
         }
+    }
+};
+// - 15 px x et - 70 px y
+var Edit = {
+    regenerate : function(strID){
+        console.log(Map.areaArray);
+        var id = strID.split('w');
+        var area = Map.areaArray[id[1]];
+        this.redraw(area);
+    },
+    redraw : function(area){
+        $(".modificable").remove();
+        var coords = area.coords.split(',');
+        var coordsArray = [];
+        for(var i = 0; i < coords.length; i += 2){
+            coordsArray.push([coords[i], coords[i + 1]]);
+        }
+        coordsArray.forEach(function(elem){
+            console.log("new" + elem[0], elem[1]);
+            Point.drawPoint(elem[0], elem[1], area.color,false,true, "modificablePoint");
+        });
 
-
+    },
+    removePoint : function(){
+        $(".modificable").remove();
     }
 };
 
 //EVENTS
 
 Point.target.click(function (event){
-    Point.addPoint(event.pageX - this.offsetLeft, event.pageY - 16);
-    Point.drawPoint(event.pageX - this.offsetLeft, event.pageY - 16);
-    i_global++;
+    if(editMode == false){
+
+        Point.addPoint(event.pageX, event.pageY);
+        Point.drawPoint(event.pageX, event.pageY, $('#cp1').val(), true, false);
+        i_global++;
+    }else{
+        //code edit mode...
+    }
+
 });
 
 $('#zone_create').click(function(event) {
-    PolygoneArray.stockPoly(Point.pointArray);
-    if(Area.check(Point.pointArray, false)){
-        Area.setUp(Point.pointArray);
-        Area.create();
-        Map.addArea(Area);
-        //Map.renderObject(Area);
-        Point.clear(Point.pointArray.length);
-        Area.reset();
-        App.resetForm();
-        App.resetMessage();
-        Point.savePolygone();
-        Map.createButtonEdit();
-        area_count++;
-
+    if(editMode == false){
+        PolygoneArray.stockPoly(Point.pointArray);
+        if(Area.check(Point.pointArray, false)){
+            Area.reset();
+            Area.setUp(Point.pointArray);
+            Area.create();
+            Map.addArea(Area);
+            //Map.renderObject(Area);
+            Point.clear(Point.pointArray.length);
+            App.resetForm();
+            App.resetMessage();
+            Point.savePolygone();
+            Map.createButtonEdit();
+            area_count++;
+        }
     }
 });
+
+$('#polygon_show').click(function(){
+    polyMode = !polyMode;
+    if(polyMode){
+        $(this).attr('class', 'btn btn-warning');
+        $(".save").hide();
+    }else{
+        $(this).attr('class', 'btn btn-secondary');
+        $('.save').show();
+    }
+
+});
+
+//EDIT EVENTS
+
+
+$('#edition_mode').on('click', function(){
+    editMode = !editMode;
+
+    if(Map.areaArray.length > 0){
+        if(editMode){
+            $('#zone_create').attr('id', 'zone_save');
+            $('#zone_save').html("Sauvegarder zone");
+            $(this).attr('class', 'btn btn-success');
+            $('p[id*="areabutton"]').click(function(){
+                Edit.regenerate($(this).attr('id'));
+                $('.modificable').draggable({
+                    containment : "#zone"
+                });
+            });
+        }else{
+            $('#zone_save').attr('id', 'zone_create');
+            $('#zone_create').html("Créer zone");
+            Edit.removePoint();
+            $(this).attr('class', 'btn btn-danger');
+        }
+    }else{
+        alert('Vous devez avoir défini au moins une zone avant de passer au mode édition');
+    }
+});
+
+
 
 $('#cp1').onchange = function(e){
    console.log(e);
@@ -243,7 +338,7 @@ document.onkeydown = function (e){
     switch(e.keyCode){
         //key enter pressed, create a new polygone into the PolyArray and clear the Zonearray
         case 13 :
-            console.log($("p[id~='areabutton']"));
+            console.log(Map.areaArray);
         break;
 
         case 75 : //key k pressed
@@ -259,9 +354,3 @@ document.onkeydown = function (e){
 
 
 //EDIT
-
- $('#areabutton0').click(function(){
-     editMode = !editMode;
-     console.log('editMode : ' + editMode);
-     console.log('click button : ' + $(this).attr('id'));
- });
