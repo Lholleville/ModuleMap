@@ -227,11 +227,21 @@ var Area = {
 };
 // - 15 px x et - 70 px y
 var Edit = {
+
+    areaEdit : null,
+    strEdit : null,
+
+
     regenerate : function(strID){
-        console.log(Map.areaArray);
         var id = strID.split('w');
         var area = Map.areaArray[id[1]];
         this.redraw(area);
+        this.setInfo(id[1]);
+
+    },
+    setInfo : function(id){
+        console.log(Map.areaArray[id].coords);
+        this.areaEdit = Map.areaArray[id];
     },
     redraw : function(area){
         $(".modificable").remove();
@@ -241,13 +251,64 @@ var Edit = {
             coordsArray.push([coords[i], coords[i + 1]]);
         }
         coordsArray.forEach(function(elem){
-            console.log("new" + elem[0], elem[1]);
             Point.drawPoint(elem[0], elem[1], area.color,false,true, "modificablePoint");
         });
 
     },
     removePoint : function(){
         $(".modificable").remove();
+    },
+    redrawPolygone : function(){
+        var points = $(".modificable");
+        var pointsArray = [];
+        var poly = $(".save polygon");
+
+        for(var i = 0; i < points.length; i++){
+            var chaine = points[i].style.cssText;
+            var re = /[a-z :; ]/;
+            var result = chaine.split(re);
+            var tp = [];
+            var tempPoint = [];
+            result.forEach(function(elem){
+                if(elem != ""){
+                    tp.push(parseInt(elem));
+                }
+            });
+            tempPoint.push(tp);
+            tempPoint.forEach(function(elem){
+                elem[0] = elem[0] - 15;
+                elem[1] = elem[1] - 70;
+            });
+            pointsArray.push(tempPoint);
+        }
+        var str = "";
+        var strUnmodified = "";
+        for(var j = 0; j < pointsArray.length; j++){
+            var x = pointsArray[j][0][0] + 30;
+            var y = pointsArray[j][0][1] + 70;
+            str += pointsArray[j][0][0] + "," + pointsArray[j][0][1];
+            strUnmodified += x + "," + y;
+            if(j + 1 < pointsArray.length){
+                str +=",";
+                strUnmodified +=",";
+            }
+        }
+        this.strEdit = strUnmodified;
+
+        poly.attr("points", str);
+    },
+    save : function(){
+        if(this.strEdit != null){
+            this.areaEdit.coords = this.strEdit;
+        }
+        this.areaEdit.shape = $('#shape').val();
+        this.areaEdit.alt = $('#alt').val();
+        this.areaEdit.href = $('#href').val();
+        this.areaEdit.color = $('#cp1').val();
+        this.areaEdit.html = '<area shape="'+this.shapeEdit+'" coords="'+this.strEdit+'" alt="'+this.altEdit+'" href="'+ this.hrefEdit +'">';
+        console.log(Map.areaArray[this.areaEdit.id]);
+        Map.areaArray[this.areaEdit.id] = this.areaEdit;
+
     }
 };
 
@@ -301,19 +362,31 @@ $('#polygon_show').click(function(){
 
 $('#edition_mode').on('click', function(){
     editMode = !editMode;
-
     if(Map.areaArray.length > 0){
-        if(editMode){
+        if(editMode) {
             $('#zone_create').attr('id', 'zone_save');
             $('#zone_save').html("Sauvegarder zone");
             $(this).attr('class', 'btn btn-success');
+            //si on clique sur le boutton
             $('p[id*="areabutton"]').click(function(){
+                //recrée les points
                 Edit.regenerate($(this).attr('id'));
-                $('.modificable').draggable({
-                    containment : "#zone"
+
+                $('.modificable').mousedown(function () {
+                    $(this).draggable({
+                        containment: "#zone"
+                    });
+                    setInterval(function() {
+                        Edit.redrawPolygone();
+                    }, 100);
+
                 });
             });
-        }else{
+            $('#zone_save').click(function(){
+                Edit.save();
+            });
+        }
+        else{
             $('#zone_save').attr('id', 'zone_create');
             $('#zone_create').html("Créer zone");
             Edit.removePoint();
