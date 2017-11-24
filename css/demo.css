@@ -353,14 +353,6 @@ p .btn-secondary{
   z-index: 0;
 }
 
-
-#zone svg{
-  z-index: 1;
-  /*height: inherit;
-  width : inherit;*/
-
-}
-
 .save, .polygon{
   height: inherit;
   width : inherit;
@@ -368,7 +360,13 @@ p .btn-secondary{
   left : 15px;
 }
 
+.modificable {
+    z-index : 2;
+}
 
+.polygon {
+    z-index: 0;
+}
 
 
 

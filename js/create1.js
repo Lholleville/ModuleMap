@@ -206,7 +206,6 @@ var Area = {
         this.coords = null;
         this.html = null;
     },
-
     check : function(pointArray, bool){
         if(bool){
             var href = ($('#href').val().length > 0) ? true : 'Il faut un lien.';

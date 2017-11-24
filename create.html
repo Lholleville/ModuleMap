@@ -18,7 +18,8 @@
         <link rel="stylesheet" href="css/bootstrap.css">
         <link rel="stylesheet" href="css/jquery.Jcrop.css">
         <link rel="stylesheet" href="css/demo.css">
-        <link rel="stylesheet" href="css/colorpicker.css">
+        <link rel="stylesheet" href="css/bootstrap-colorpicker.css">
+        <link rel="stylesheet" href="css/font-awesome.css">
     </head>
 
     <body>
@@ -52,9 +53,9 @@
 
                     <form id="form">
                         <div class="form-group">
-                            <label for="shape">Type de zone</label>
-                            <input type="text" id="shape" class="form-control" value="poly" readonly/>
-                            <small id="shapeHelp" class="form-text text-muted"></small>
+                            <label for="name">Nom de la zone</label>
+                            <input type="text" id="name" class="form-control" value=""/>
+                            <small id="nameHelp" class="form-text text-muted"></small>
                         </div>
                         <div class="form-group">
                             <label for="alt">Légende</label>
@@ -68,10 +69,16 @@
                             <small id="hrefHelp" class="form-text text-muted"></small>
                             <small id="nbPointHelp" class="form-text text-muted"></small>
                         </div>
-                        <div class="form-group">
+                        <!--<div class="form-group">
                             <label for="cp1">Couleur</label>
                             <input id="cp1" type="text" class="form-control" value=""/>
                             <small class="form-text text-muted">Validez avec le &#9989</small>
+                        </div>-->
+                        <div class="form-group">
+                            <div id="cp1" class="input-group colorpicker-component" title="Using input value">
+                                <input type="text" class="form-control input-lg" value="#DD0F20"/>
+                                <span class="input-group-addon"><i></i></span>
+                            </div>
                         </div>
 
                         <div class="form-group">
@@ -96,11 +103,16 @@
 
         <script src="js/load-image.all.min.js"></script>
         <script src="https://d3js.org/d3.v4.min.js"></script>
-        <script src="js/jquery.Jcrop.js"></script>
-        <script src="js/colorpicker.js"></script>
+
         <script src="js/loadImage.js"></script>
         <script src="js/demo.js"></script>
-        <script src="js/edit.js"></script>
-        <script src="js/create.js"></script>
+        <script src="js/bootstrap-colorpicker.js"></script>
+
+        <!-- CLASS -->
+        <script src="js/class/editor.js"></script>
+        <script src="js/class/point.js"></script>
+        <script src="js/class/area.js"></script>
+        <script src="js/class/app.js"></script>
+        <script src="js/event.js"></script>
     </body>
 </html>

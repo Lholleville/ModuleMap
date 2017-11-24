@@ -1,6 +1,13 @@
 /**
  * Created by Loic on 03/11/2017.
  */
+
+$(document).ready(function() {
+    //$('#zone').css('background-image', 'url("img/memel.png")');
+    $('#workshop').hide();
+    $('#form').hide();
+});
+
 document.getElementById('file-5').onchange = function (e) {
     loadImage(
         e.target.files[0],
@@ -14,6 +21,7 @@ document.getElementById('file-5').onchange = function (e) {
             $('#zone').height(img.height);
 
             $('#form').show();
+            $('#cp1').colorpicker();
         },
         {maxWidth: 600} // Options
     );
@@ -31,20 +39,7 @@ document.getElementById('file-5').onchange = function (e) {
     //     preview.src = "";
     // }
 };
-$('#cp1').click(function(e){
-    Point.changeColor();
+$(function() {
+    $('#cp1').colorpicker();
 });
 
-$('#cp1').val("#FF3429");
-$('#cp1').ColorPicker({
-    onSubmit: function(hsb, hex, rgb, el) {
-        $(el).val("#" + hex);
-        $(el).ColorPickerHide();
-    },
-    onBeforeShow: function () {
-        $(this).ColorPickerSetColor(this.value);
-    }
-})
-    .bind('keyup', function(){
-        $(this).ColorPickerSetColor("#" + this.value);
-    });
